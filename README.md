@@ -1,6 +1,6 @@
 # obsidian-plugin-toc
 
-Create a tables of contents for a note.
+Create a table of contents for a note.
 
 ![Example of content creation](example.gif)
 

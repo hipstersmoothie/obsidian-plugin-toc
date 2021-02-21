@@ -1,6 +1,6 @@
 {
   "name": "obsidian-plugin-toc",
-  "description": "OCreate a tables of contents for obsidian.md notes.",
+  "description": "Create a table of contents for obsidian.md notes.",
   "scripts": {
     "start": "yarn build -w",
     "build": "rollup --config rollup.config.js",
