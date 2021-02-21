@@ -1,0 +1,25 @@
+# Intellij
+*.iml
+.idea
+dist/
+prettier-format.zip
+.env
+
+# npm
+node_modules
+package-lock.json
+
+# build
+main.js
+*.js.map
+
+# release
+table-editor-obsidian/*
+table-editor-obsidian_*.zip
+
+# yarn
+yarn-error.log
+
+# Obsidian
+
+data.json
