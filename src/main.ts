@@ -121,7 +121,7 @@ export default class TableOfContentsPlugin extends Plugin {
             return;
           }
 
-          const toc = createToc(filename.name, text, cursor, this.settings);
+          const toc = createToc(text, cursor, this.settings);
 
           if (toc) {
             editor.replaceRange(toc, cursor);
@@ -147,7 +147,7 @@ export default class TableOfContentsPlugin extends Plugin {
           }
 
           const currentHeaderDepth = getCurrentHeaderDepth(text, cursor);
-          const toc = createToc(filename.name, text, cursor, {
+          const toc = createToc(text, cursor, {
             ...this.settings,
             maximumDepth: currentHeaderDepth + 1,
           });

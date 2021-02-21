@@ -49,7 +49,6 @@ export const getCurrentHeaderDepth = (
 };
 
 export const createToc = (
-  filename: string,
   code: string,
   cursor: CursorPosition,
   settings: TableOfContentsPluginSettings
@@ -86,7 +85,7 @@ export const createToc = (
       .fill("\t")
       .join("");
 
-    return `${indent}${itemIndication} [[${filename}#${title}|${title}]]`;
+    return `${indent}${itemIndication} [[#${title}|${title}]]`;
   });
 
   return endent`
