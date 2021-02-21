@@ -593,10 +593,10 @@ author-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
   integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
 
-auto-plugin-obsidian@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/auto-plugin-obsidian/-/auto-plugin-obsidian-0.0.2.tgz#3f2139273c2795266217e1d959dabdece8b5f2cc"
-  integrity sha512-phKrNs7E8RM3Nm3tfLIdxOZ3kTvoIsvohF+SMrmLIh9Sp0VwNSJeFhLJPrGV9hxro9SGzP3Umx7lnuLhKhh1bA==
+auto-plugin-obsidian@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/auto-plugin-obsidian/-/auto-plugin-obsidian-0.0.3.tgz#1b340120b7ce148154dd2a14fdfd2e6e806d5c47"
+  integrity sha512-NAR5K16vXeN8/v2OnEmS8evgQRvoIPo5Uo6heSBWvx332OxiqKb7HwQi0dlR8Hdc7V3KGcGzfS+lZQ0AIagfBg==
   dependencies:
     "@auto-it/core" "^10.16.5"
     "@auto-it/upload-assets" "^10.16.7"

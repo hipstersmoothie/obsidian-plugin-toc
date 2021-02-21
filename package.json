@@ -25,7 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "auto": "^10.16.7",
-    "auto-plugin-obsidian": "^0.0.2",
+    "auto-plugin-obsidian": "^0.0.3",
     "eslint": "7.12.1",
     "eslint-config-prettier": "^7.2.0",
     "obsidian": "https://github.com/obsidianmd/obsidian-api/archive/7f3927722e1bdd791119727236a12bb10763dd04.tar.gz",
