@@ -1,49 +1,10 @@
-import {
-  App,
-  MarkdownView,
-  Plugin,
-  PluginManifest,
-  PluginSettingTab,
-  Setting,
-} from "obsidian";
-import * as prettier from "prettier";
-import markdown from "prettier/parser-markdown";
+import { App, MarkdownView, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { createToc, getCurrentHeaderDepth } from "./create-toc";
 
 export interface CursorPosition {
   line: number;
   ch: number;
 }
-
-const positionToCursorOffset = (
-  code: string,
-  { line, ch }: CursorPosition
-): number => {
-  return code.split("\n").reduce((pos, currLine, index) => {
-    if (index < line) {
-      return pos + currLine.length + 1;
-    }
-
-    if (index === line) {
-      return pos + ch;
-    }
-
-    return pos;
-  }, 0);
-};
-
-const cursorOffsetToPosition = (
-  code: string,
-  cursorOffset: number
-): CursorPosition => {
-  const substring = code.slice(0, cursorOffset);
-  const line = substring.split("\n").length - 1;
-  const indexOfLastLine = substring.lastIndexOf("\n");
-
-  return {
-    line,
-    ch: cursorOffset - indexOfLastLine - 1,
-  };
-};
 
 class TableOfContentsSettingsTab extends PluginSettingTab {
   private readonly plugin: TableOfContentsPlugin;
@@ -121,11 +82,6 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
   }
 }
 
-const getDepth = (header: string) => {
-  const [hashes] = header.split(" ");
-  return hashes.length;
-};
-
 interface TableOfContentsPluginSettings {
   listStyle: "bullet" | "number";
   minimumDepth: number;
@@ -159,61 +115,46 @@ export default class TableOfContentsPlugin extends Plugin {
           const editor = activeLeaf.view.sourceMode.cmEditor;
           const text = editor.getValue();
           const cursor = editor.getCursor();
-          const position = positionToCursorOffset(text, cursor);
-          const precedingText = text.slice(0, position);
-          const lines = precedingText.split("\n").reverse();
-          const HEADER_REGEX = new RegExp(
-            `^[#]{${this.settings.minimumDepth},${this.settings.maximumDepth}} `
-          );
-          let currentDepth = this.settings.minimumDepth - 1;
+          const filename = this.app.workspace.getActiveFile();
 
-          for (const line of lines) {
-            if (line.match(HEADER_REGEX)) {
-              currentDepth = getDepth(line);
-              break;
-            }
-          }
-
-          const afterText = text.slice(position).split("\n");
-          const headers: string[] = [];
-
-          for (const line of afterText) {
-            if (line.match(HEADER_REGEX)) {
-              const depth = getDepth(line);
-
-              if (depth < currentDepth) {
-                break;
-              }
-
-              headers.push(line);
-            }
-          }
-
-          if (!headers.length) {
+          if (!filename) {
             return;
           }
 
-          const minimumDepth = headers[0].split(" ").length;
-          const links = headers.map((header) => {
-            const [hashes, ...words] = header.split(" ");
-            const indent = new Array(Math.max(0, hashes.length - minimumDepth))
-              .fill("\t")
-              .join("");
-            const title = words.join(" ");
-            const itemIndication =
-              (this.settings.listStyle === "number" && "1.") || "-";
+          const toc = createToc(filename.name, text, cursor, this.settings);
 
-            return `${indent}${itemIndication} [[${
-              this.app.workspace.getActiveFile()?.name
-            }#${title}|${title}]]`;
+          if (toc) {
+            editor.replaceRange(toc, cursor);
+          }
+        }
+      },
+    });
+
+    this.addCommand({
+      id: "create-toc-next-level",
+      name: "Create table of contents for next heading level",
+      callback: () => {
+        const activeLeaf = this.app.workspace.activeLeaf;
+
+        if (activeLeaf.view instanceof MarkdownView) {
+          const editor = activeLeaf.view.sourceMode.cmEditor;
+          const text = editor.getValue();
+          const cursor = editor.getCursor();
+          const filename = this.app.workspace.getActiveFile();
+
+          if (!filename) {
+            return;
+          }
+
+          const currentHeaderDepth = getCurrentHeaderDepth(text, cursor);
+          const toc = createToc(filename.name, text, cursor, {
+            ...this.settings,
+            maximumDepth: currentHeaderDepth + 1,
           });
 
-          editor.replaceRange(
-            `${
-              this.settings.title ? `${this.settings.title}\n\n` : ""
-            }${links.join("\n")}`,
-            cursor
-          );
+          if (toc) {
+            editor.replaceRange(toc, cursor);
+          }
         }
       },
     });
