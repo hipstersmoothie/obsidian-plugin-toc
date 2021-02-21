@@ -1,7 +1,7 @@
 {
   "author": "Andrew Lisowski <lisowski54@gmail.com>",
   "plugins": [
-    ["obsidian", { "dir": "dist" }],
+    ["obsidian", { "dir": "dist", "zip": true }],
     "released"
   ]
 }
