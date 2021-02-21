@@ -1,3 +1,15 @@
+# 0.0.3 (Sun Feb 21 2021)
+
+#### ⚠️ Pushed to `main`
+
+- update auto version ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.2 (Sun Feb 21 2021)
 
 #### ⚠️ Pushed to `main`
