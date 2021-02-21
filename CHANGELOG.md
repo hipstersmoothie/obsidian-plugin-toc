@@ -1,3 +1,15 @@
+# 0.0.11 (Sun Feb 21 2021)
+
+#### ⚠️ Pushed to `main`
+
+- fix description ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.10 (Sun Feb 21 2021)
 
 #### ⚠️ Pushed to `main`
