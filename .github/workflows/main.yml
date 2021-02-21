@@ -29,4 +29,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
           zip -r table-of-contents.zip dist
+          mv table-of-contents.zip dist
           npm run release

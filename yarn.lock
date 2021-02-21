@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@auto-it/bot-list/-/bot-list-10.16.7.tgz#15afb9cf084daaba244bae77c0defbdefa5b993d"
   integrity sha512-vFIZ8JE3Wz4xYk637heW6mihe7AhBN66CtsczdJBDMemlLzL15dp8v7L9QtpW9n1awfjIjuKMQiP2H6LbZhfDQ==
 
-"@auto-it/core@10.16.7":
+"@auto-it/core@10.16.7", "@auto-it/core@^10.16.5":
   version "10.16.7"
   resolved "https://registry.yarnpkg.com/@auto-it/core/-/core-10.16.7.tgz#82da488c543fd84eb466d04f0aff9c2a9665ec24"
   integrity sha512-7reAqLtdnmnw/meuVHzyzlyhs+FdAZKIMVFshggGjZy5IJ/zO8veabyhs2kbv4Nr8HBIh4bT6d/lrod187H3gA==
@@ -593,6 +593,18 @@ author-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
   integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
 
+auto-plugin-obsidian@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/auto-plugin-obsidian/-/auto-plugin-obsidian-0.0.2.tgz#3f2139273c2795266217e1d959dabdece8b5f2cc"
+  integrity sha512-phKrNs7E8RM3Nm3tfLIdxOZ3kTvoIsvohF+SMrmLIh9Sp0VwNSJeFhLJPrGV9hxro9SGzP3Umx7lnuLhKhh1bA==
+  dependencies:
+    "@auto-it/core" "^10.16.5"
+    "@auto-it/upload-assets" "^10.16.7"
+    fast-glob "^3.2.5"
+    fp-ts "^2.5.3"
+    io-ts "^2.1.2"
+    semver "^7.3.4"
+
 auto@^10.16.7:
   version "10.16.7"
   resolved "https://registry.yarnpkg.com/auto/-/auto-10.16.7.tgz#ff85734cb06e767e74fb577612876b8a6b91151a"
@@ -1023,6 +1035,18 @@ fast-glob@^3.1.1:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.4.tgz#d20aefbf99579383e7f3cc66529158c9b98554d3"
   integrity sha512-kr/Oo6PX51265qeuCYsyGypiO5uJFgBS0jksyG7FUeCyQzNwYnzrNIMR1NXfkZXsMYXYLRAHgISHBz8gQcxKHQ==
+  dependencies:
+    "@nodelib/fs.stat" "^2.0.2"
+    "@nodelib/fs.walk" "^1.2.3"
+    glob-parent "^5.1.0"
+    merge2 "^1.3.0"
+    micromatch "^4.0.2"
+    picomatch "^2.2.1"
+
+fast-glob@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.5.tgz#7939af2a656de79a4f1901903ee8adcaa7cb9661"
+  integrity sha512-2DtFcgT68wiTTiwZ2hNdJfcHNke9XOfnwmBRWXhmeKM8rF0TGwmC/Qto3S7RoZKp5cilZbxzO5iTNTQsJ+EeDg==
   dependencies:
     "@nodelib/fs.stat" "^2.0.2"
     "@nodelib/fs.walk" "^1.2.3"
@@ -1854,7 +1878,7 @@ safe-buffer@*, safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
-semver@^7.0.0:
+semver@^7.0.0, semver@^7.3.4:
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.4.tgz#27aaa7d2e4ca76452f98d3add093a72c943edc97"
   integrity sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==
