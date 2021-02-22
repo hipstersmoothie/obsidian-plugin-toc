@@ -1,3 +1,15 @@
+# 0.0.12 (Mon Feb 22 2021)
+
+#### ⚠️ Pushed to `main`
+
+- Use heading cache instead of regex ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.11 (Sun Feb 21 2021)
 
 #### ⚠️ Pushed to `main`
