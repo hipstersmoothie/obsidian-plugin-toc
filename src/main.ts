@@ -103,17 +103,20 @@ export default class TableOfContentsPlugin extends Plugin {
       ...this.settings,
       ...(await this.loadData()),
     };
-    this.saveData(this.settings);
 
     this.addCommand({
       id: "create-toc",
       name: "Create table of contents",
       callback: () => {
-        const activeLeaf = this.app.workspace.activeLeaf;
+        const activeLeaf = this.app.workspace.getActiveViewOfType(MarkdownView);
 
-        if (activeLeaf.view instanceof MarkdownView) {
-          const editor = activeLeaf.view.sourceMode.cmEditor;
-          const text = editor.getValue();
+        if (activeLeaf instanceof MarkdownView) {
+          const activeFile = this.app.workspace.getActiveFile();
+          const data = activeFile
+            ? this.app.metadataCache.getFileCache(activeFile) || {}
+            : {};
+
+          const editor = activeLeaf.sourceMode.cmEditor;
           const cursor = editor.getCursor();
           const filename = this.app.workspace.getActiveFile();
 
@@ -121,7 +124,7 @@ export default class TableOfContentsPlugin extends Plugin {
             return;
           }
 
-          const toc = createToc(text, cursor, this.settings);
+          const toc = createToc(data, cursor, this.settings);
 
           if (toc) {
             editor.replaceRange(toc, cursor);
@@ -134,11 +137,14 @@ export default class TableOfContentsPlugin extends Plugin {
       id: "create-toc-next-level",
       name: "Create table of contents for next heading level",
       callback: () => {
-        const activeLeaf = this.app.workspace.activeLeaf;
+        const activeLeaf = this.app.workspace.getActiveViewOfType(MarkdownView);
 
-        if (activeLeaf.view instanceof MarkdownView) {
-          const editor = activeLeaf.view.sourceMode.cmEditor;
-          const text = editor.getValue();
+        if (activeLeaf instanceof MarkdownView) {
+          const activeFile = this.app.workspace.getActiveFile();
+          const data = activeFile
+            ? this.app.metadataCache.getFileCache(activeFile) || {}
+            : {};
+          const editor = activeLeaf.sourceMode.cmEditor;
           const cursor = editor.getCursor();
           const filename = this.app.workspace.getActiveFile();
 
@@ -146,8 +152,11 @@ export default class TableOfContentsPlugin extends Plugin {
             return;
           }
 
-          const currentHeaderDepth = getCurrentHeaderDepth(text, cursor);
-          const toc = createToc(text, cursor, {
+          const currentHeaderDepth = getCurrentHeaderDepth(
+            data.headings || [],
+            cursor
+          );
+          const toc = createToc(data, cursor, {
             ...this.settings,
             maximumDepth: currentHeaderDepth + 1,
           });

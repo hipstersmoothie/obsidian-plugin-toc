@@ -1,4 +1,5 @@
 import endent from "endent";
+import { CachedMetadata, HeadingCache } from "obsidian";
 import { TableOfContentsPluginSettings } from "./types";
 
 export interface CursorPosition {
@@ -6,86 +7,61 @@ export interface CursorPosition {
   ch: number;
 }
 
-const positionToCursorOffset = (
-  code: string,
-  { line, ch }: CursorPosition
-): number => {
-  return code.split("\n").reduce((pos, currLine, index) => {
-    if (index < line) {
-      return pos + currLine.length + 1;
-    }
-
-    if (index === line) {
-      return pos + ch;
-    }
-
-    return pos;
-  }, 0);
-};
-
-const getDepth = (header: string) => {
-  const [hashes] = header.split(" ");
-  return hashes.length;
-};
-
 export const getCurrentHeaderDepth = (
-  code: string,
+  headings: HeadingCache[],
   cursor: CursorPosition
 ): number => {
-  const position = positionToCursorOffset(code, cursor);
-  const precedingText = code.slice(0, position);
-  const lines = precedingText.split("\n").reverse();
+  const previousHeadings = headings.filter(
+    (heading) => heading.position.end.line < cursor.line
+  );
 
-  let currentDepth = 0;
-
-  for (const line of lines) {
-    if (line.match(/^[#]{1,6} /)) {
-      currentDepth = getDepth(line);
-      break;
-    }
+  if (!previousHeadings.length) {
+    return 0;
   }
 
-  return currentDepth;
+  return previousHeadings[previousHeadings.length - 1].level;
+};
+
+const getSubsequentHeadings = (
+  headings: HeadingCache[],
+  cursor: CursorPosition
+): HeadingCache[] => {
+  return headings.filter((heading) => heading.position.end.line > cursor.line);
 };
 
 export const createToc = (
-  code: string,
+  { headings = [] }: CachedMetadata,
   cursor: CursorPosition,
   settings: TableOfContentsPluginSettings
 ): string | undefined => {
-  const position = positionToCursorOffset(code, cursor);
-  const currentDepth = getCurrentHeaderDepth(code, cursor);
-  const afterText = code.slice(position).split("\n");
-  const headers: string[] = [];
-  const HEADER_REGEX = new RegExp(
-    `^[#]{${settings.minimumDepth},${settings.maximumDepth}} `
-  );
+  const currentDepth = getCurrentHeaderDepth(headings, cursor);
+  const subsequentHeadings = getSubsequentHeadings(headings, cursor);
+  const includedHeadings: HeadingCache[] = [];
 
-  for (const line of afterText) {
-    if (line.match(HEADER_REGEX)) {
-      const depth = getDepth(line);
+  for (const heading of subsequentHeadings) {
+    if (heading.level <= currentDepth) {
+      break;
+    }
 
-      if (depth <= currentDepth) {
-        break;
-      }
-
-      headers.push(line);
+    if (
+      heading.level >= settings.minimumDepth &&
+      heading.level <= settings.maximumDepth
+    ) {
+      includedHeadings.push(heading);
     }
   }
 
-  if (!headers.length) {
+  if (!includedHeadings.length) {
     return;
   }
 
-  const links = headers.map((header) => {
-    const [hashes, ...words] = header.split(" ");
-    const title = words.join(" ");
+  const links = includedHeadings.map((heading) => {
     const itemIndication = (settings.listStyle === "number" && "1.") || "-";
-    const indent = new Array(Math.max(0, hashes.length - currentDepth - 1))
+    const indent = new Array(Math.max(0, heading.level - currentDepth - 1))
       .fill("\t")
       .join("");
 
-    return `${indent}${itemIndication} [[#${title}|${title}]]`;
+    return `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
   });
 
   return endent`
