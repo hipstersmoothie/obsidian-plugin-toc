@@ -146,17 +146,10 @@ export default class TableOfContentsPlugin extends Plugin {
   ) => () => {
     const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
 
-    if (activeView) {
-      const activeFile = this.app.workspace.getActiveFile();
-
-      if (!activeFile) {
-        return;
-      }
-
+    if (activeView && activeView.file) {
       const editor = activeView.sourceMode.cmEditor;
       const cursor = editor.getCursor();
-      const data =
-        (activeFile && this.app.metadataCache.getFileCache(activeFile)) || {};
+      const data = this.app.metadataCache.getFileCache(activeView.file) || {};
       const toc = createToc(
         data,
         cursor,
