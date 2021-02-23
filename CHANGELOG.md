@@ -1,3 +1,15 @@
+# 0.0.14 (Tue Feb 23 2021)
+
+#### ⚠️ Pushed to `main`
+
+- simplify getting active file ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.13 (Tue Feb 23 2021)
 
 #### ⚠️ Pushed to `main`
