@@ -1,4 +1,11 @@
-import { App, MarkdownView, Plugin, PluginSettingTab, Setting } from "obsidian";
+import {
+  App,
+  CachedMetadata,
+  MarkdownView,
+  Plugin,
+  PluginSettingTab,
+  Setting,
+} from "obsidian";
 import { createToc, getCurrentHeaderDepth } from "./create-toc";
 
 export interface CursorPosition {
@@ -82,6 +89,11 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
   }
 }
 
+type GetSettings = (
+  data: CachedMetadata,
+  cursor: CodeMirror.Position
+) => TableOfContentsPluginSettings;
+
 interface TableOfContentsPluginSettings {
   listStyle: "bullet" | "number";
   minimumDepth: number;
@@ -107,67 +119,53 @@ export default class TableOfContentsPlugin extends Plugin {
     this.addCommand({
       id: "create-toc",
       name: "Create table of contents",
-      callback: () => {
-        const activeLeaf = this.app.workspace.getActiveViewOfType(MarkdownView);
-
-        if (activeLeaf instanceof MarkdownView) {
-          const activeFile = this.app.workspace.getActiveFile();
-          const data = activeFile
-            ? this.app.metadataCache.getFileCache(activeFile) || {}
-            : {};
-
-          const editor = activeLeaf.sourceMode.cmEditor;
-          const cursor = editor.getCursor();
-          const filename = this.app.workspace.getActiveFile();
-
-          if (!filename) {
-            return;
-          }
-
-          const toc = createToc(data, cursor, this.settings);
-
-          if (toc) {
-            editor.replaceRange(toc, cursor);
-          }
-        }
-      },
+      callback: this.createTocForActiveFile(),
     });
 
     this.addCommand({
       id: "create-toc-next-level",
       name: "Create table of contents for next heading level",
-      callback: () => {
-        const activeLeaf = this.app.workspace.getActiveViewOfType(MarkdownView);
+      callback: this.createTocForActiveFile((data, cursor) => {
+        const currentHeaderDepth = getCurrentHeaderDepth(
+          data.headings || [],
+          cursor
+        );
 
-        if (activeLeaf instanceof MarkdownView) {
-          const activeFile = this.app.workspace.getActiveFile();
-          const data = activeFile
-            ? this.app.metadataCache.getFileCache(activeFile) || {}
-            : {};
-          const editor = activeLeaf.sourceMode.cmEditor;
-          const cursor = editor.getCursor();
-          const filename = this.app.workspace.getActiveFile();
-
-          if (!filename) {
-            return;
-          }
-
-          const currentHeaderDepth = getCurrentHeaderDepth(
-            data.headings || [],
-            cursor
-          );
-          const toc = createToc(data, cursor, {
-            ...this.settings,
-            maximumDepth: currentHeaderDepth + 1,
-          });
-
-          if (toc) {
-            editor.replaceRange(toc, cursor);
-          }
-        }
-      },
+        return {
+          ...this.settings,
+          maximumDepth: currentHeaderDepth + 1,
+        };
+      }),
     });
 
     this.addSettingTab(new TableOfContentsSettingsTab(this.app, this));
   }
+
+  private createTocForActiveFile = (
+    settings: TableOfContentsPluginSettings | GetSettings = this.settings
+  ) => () => {
+    const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
+
+    if (activeView) {
+      const activeFile = this.app.workspace.getActiveFile();
+
+      if (!activeFile) {
+        return;
+      }
+
+      const editor = activeView.sourceMode.cmEditor;
+      const cursor = editor.getCursor();
+      const data =
+        (activeFile && this.app.metadataCache.getFileCache(activeFile)) || {};
+      const toc = createToc(
+        data,
+        cursor,
+        typeof settings === "function" ? settings(data, cursor) : settings
+      );
+
+      if (toc) {
+        editor.replaceRange(toc, cursor);
+      }
+    }
+  };
 }
