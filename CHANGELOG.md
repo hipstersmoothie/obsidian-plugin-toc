@@ -1,3 +1,16 @@
+# 0.0.15 (Thu Feb 25 2021)
+
+#### ⚠️ Pushed to `main`
+
+- improve docs ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- fix indentation of headings ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.14 (Tue Feb 23 2021)
 
 #### ⚠️ Pushed to `main`
