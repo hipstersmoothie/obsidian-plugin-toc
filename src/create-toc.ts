@@ -55,9 +55,10 @@ export const createToc = (
     return;
   }
 
+  const firstHeadingDepth = includedHeadings[0].level
   const links = includedHeadings.map((heading) => {
     const itemIndication = (settings.listStyle === "number" && "1.") || "-";
-    const indent = new Array(Math.max(0, heading.level - currentDepth - 1))
+    const indent = new Array(Math.max(0, heading.level - firstHeadingDepth))
       .fill("\t")
       .join("");
 
