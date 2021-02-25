@@ -33,6 +33,13 @@ _Output:_ "Table of Contents" only contains subheadings of that level 2 heading
 
 ## Installing
 
-Unzip the [latest release](https://github.com/hipstersmoothie/obsidian-plugin-toc/releases/latest) into your `<vault>/.obsidian/plugins/` folder.
+Either install the latest release from Obisidian directly or unzip the [latest release](https://github.com/hipstersmoothie/obsidian-plugin-toc/releases/latest) into your `<vault>/.obsidian/plugins/` folder.
 
+Once the plugin is installed, you need to make sure that the switch for "Table of Contents" is turned on.
+After you are all setup you would see this plugins commands in the command palette (`CMD + P`).
+You can assign the commands to hotkeys for easy usage.
 
+Here is my setup:
+
+- Create full table of contents => `CMD + SHIFT + T`
+- Create table of contents for next heading level => `CMD + T`
