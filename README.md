@@ -33,7 +33,7 @@ _Output:_ "Table of Contents" only contains subheadings of that level 2 heading
 
 ## Installing
 
-Either install the latest release from Obisidian directly or unzip the [latest release](https://github.com/hipstersmoothie/obsidian-plugin-toc/releases/latest) into your `<vault>/.obsidian/plugins/` folder.
+Either install the latest release from Obsidian directly or unzip the [latest release](https://github.com/hipstersmoothie/obsidian-plugin-toc/releases/latest) into your `<vault>/.obsidian/plugins/` folder.
 
 Once the plugin is installed, you need to make sure that the switch for "Table of Contents" is turned on.
 After you are all setup you would see this plugins commands in the command palette (`CMD + P`).
