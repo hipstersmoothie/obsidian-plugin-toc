@@ -1,5 +1,5 @@
 import endent from "endent";
-import { CachedMetadata, HeadingCache } from "obsidian";
+import { CachedMetadata, HeadingCache, Notice } from "obsidian";
 import { TableOfContentsPluginSettings } from "./types";
 
 export interface CursorPosition {
@@ -52,10 +52,16 @@ export const createToc = (
   }
 
   if (!includedHeadings.length) {
+    new Notice(
+      endent`
+        No headings below cursor matched settings 
+        (min: ${settings.minimumDepth}) (max: ${settings.maximumDepth})
+      `
+    );
     return;
   }
 
-  const firstHeadingDepth = includedHeadings[0].level
+  const firstHeadingDepth = includedHeadings[0].level;
   const links = includedHeadings.map((heading) => {
     const itemIndication = (settings.listStyle === "number" && "1.") || "-";
     const indent = new Array(Math.max(0, heading.level - firstHeadingDepth))
