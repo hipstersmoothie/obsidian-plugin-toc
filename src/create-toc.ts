@@ -67,6 +67,6 @@ export const createToc = (
 
   return endent`
     ${settings.title ? `${settings.title}\n` : ""}
-    ${links.join("\n")}
+    ${`${links.join("\n")}\n`}
   `;
 };
