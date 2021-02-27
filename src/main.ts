@@ -130,10 +130,15 @@ export default class TableOfContentsPlugin extends Plugin {
           data.headings || [],
           cursor
         );
+        const depth = Math.max(
+          currentHeaderDepth + 1,
+          this.settings.minimumDepth
+        );
 
         return {
           ...this.settings,
-          maximumDepth: currentHeaderDepth + 1,
+          minimumDepth: depth,
+          maximumDepth: depth,
         };
       }),
     });
