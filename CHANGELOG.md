@@ -1,3 +1,15 @@
+# 0.1.0 (Sat Feb 27 2021)
+
+#### 🚀 Enhancement
+
+- show Notice when no headers are matched [#5](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/5) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.16 (Sat Feb 27 2021)
 
 #### 🐛 Bug Fix
