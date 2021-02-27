@@ -1,3 +1,15 @@
+# 0.0.16 (Sat Feb 27 2021)
+
+#### 🐛 Bug Fix
+
+- Add newline at end of TOC [#4](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/4) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.0.15 (Thu Feb 25 2021)
 
 #### ⚠️ Pushed to `main`
