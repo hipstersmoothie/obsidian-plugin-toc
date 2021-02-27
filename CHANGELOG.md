@@ -1,3 +1,15 @@
+# 0.1.1 (Sat Feb 27 2021)
+
+#### 🐛 Bug Fix
+
+- fix generating top level TOC when minimumDepth > 1 [#6](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/6) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.1.0 (Sat Feb 27 2021)
 
 #### 🚀 Enhancement
