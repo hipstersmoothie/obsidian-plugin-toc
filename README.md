@@ -43,3 +43,28 @@ Here is my setup:
 
 - Create full table of contents => `CMD + SHIFT + T`
 - Create table of contents for next heading level => `CMD + T`
+
+## Customizations
+
+### Detailed Nested Ordered Lists
+
+If you want the table of contents to use nested list counting (ex: 1.1, 1.2) add the following CSS snippet to obsidian.
+This will effect all ordered lists in your notes.
+
+```css
+ol {
+  counter-reset: item;
+}
+
+ol li {
+  display: block;
+}
+
+ol li:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item;
+  padding-right: 5px;
+}
+```
+
+> NOTE: Make sure you enable the snippet in obsidian's options.
