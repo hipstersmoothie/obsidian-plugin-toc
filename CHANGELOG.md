@@ -1,3 +1,15 @@
+# 0.1.2 (Mon Mar 01 2021)
+
+#### ⚠️ Pushed to `main`
+
+- add fancy ordered list instructions ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # 0.1.1 (Sat Feb 27 2021)
 
 #### 🐛 Bug Fix
