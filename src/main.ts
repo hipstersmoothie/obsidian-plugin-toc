@@ -82,8 +82,8 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
             this.plugin.settings.linkMask = value;
             this.plugin.saveData(this.plugin.settings);
 			
-			if(!resetBtn){
-			  resetBtn = linkMaskSettingItem.addExtraButton((btn) => 
+			if(!resetLinkMaskBtn){
+			  resetLinkMaskBtn = linkMaskSettingItem.addExtraButton((btn) => 
 				btn
 				  .setTooltip("Default")
 				  .setIcon("reset")

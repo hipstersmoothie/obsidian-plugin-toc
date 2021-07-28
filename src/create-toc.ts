@@ -74,7 +74,7 @@ export const createToc = (
       ? settings.linkMask.replace("{{indent}}", indent)
 		.replace("{{itemIndication}}", itemIndication)
 		.replace("{{heading}}", heading.heading)
-	  : `${indent}${itemIndication} [[#{heading.heading}|${heading.heading}]]`;
+	  : `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
 
     return view;
   });
