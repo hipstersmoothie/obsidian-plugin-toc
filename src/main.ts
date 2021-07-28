@@ -32,9 +32,9 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
       .setDesc("The type of list to render the table of contents as.")
       .addDropdown((dropdown) =>
         dropdown
-          .setValue(this.plugin.settings.listStyle)
           .addOption("bullet", "Bullet")
           .addOption("number", "Number")
+          .setValue(this.plugin.settings.listStyle)
           .onChange((value: any) => {
             this.plugin.settings.listStyle = value;
             this.plugin.saveData(this.plugin.settings);
