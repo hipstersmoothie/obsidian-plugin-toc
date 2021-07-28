@@ -54,6 +54,47 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
             this.plugin.saveData(this.plugin.settings);
           })
       );
+	  
+	new Setting(containerEl)
+      .setName("Indent text")
+      .setDesc("\\t - tabulation")
+      .addText((text) =>
+        text
+          .setPlaceholder("\\t")
+          .setValue(this.plugin.settings.indentText || "")
+          .onChange((value) => {
+            this.plugin.settings.indentText = value;
+            this.plugin.saveData(this.plugin.settings);
+          })
+      );
+
+    const linkMaskSettingItem = new Setting(containerEl)
+      .setName("Link mask")
+      .setDesc("Avaliable vars: {{indent}}, {{itemIndication}}, {{heading}}.");
+		
+	const defaultLinkMask = "{{indent}}{{itemIndication}} [[#{{heading}}]]";
+	let resetLinkMaskBtn = null;
+    linkMaskSettingItem.addText((input) =>
+        input
+          .setPlaceholder("{{indent}}{{itemIndication}} [[#{{heading}}]]")
+          .setValue(this.plugin.settings.linkMask || "")
+          .onChange((value) => {
+            this.plugin.settings.linkMask = value;
+            this.plugin.saveData(this.plugin.settings);
+			
+			if(!resetBtn){
+			  resetBtn = linkMaskSettingItem.addExtraButton((btn) => 
+				btn
+				  .setTooltip("Default")
+				  .setIcon("reset")
+				  .onClick(() => {
+					input.setValue(defaultLinkMask);		
+					this.plugin.settings.linkMask = defaultLinkMask;
+					this.plugin.saveData(this.plugin.settings);
+				}));
+			}
+          })
+      );
 
     new Setting(containerEl)
       .setName("Minimum Header Depth")
@@ -99,6 +140,8 @@ interface TableOfContentsPluginSettings {
   minimumDepth: number;
   maximumDepth: number;
   title?: string;
+  indentText?: string;
+  linkMask?: string;
 }
 
 export default class TableOfContentsPlugin extends Plugin {

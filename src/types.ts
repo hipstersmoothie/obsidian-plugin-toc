@@ -3,4 +3,6 @@ export interface TableOfContentsPluginSettings {
   minimumDepth: number;
   maximumDepth: number;
   title?: string;
+  indentText?: string;
+  linkMask?: string;
 }

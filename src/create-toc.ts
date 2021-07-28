@@ -64,11 +64,19 @@ export const createToc = (
   const firstHeadingDepth = includedHeadings[0].level;
   const links = includedHeadings.map((heading) => {
     const itemIndication = (settings.listStyle === "number" && "1.") || "-";
+	const indentText = (settings.indentText || "\t")
+		.replace("\\t", "\t");
     const indent = new Array(Math.max(0, heading.level - firstHeadingDepth))
-      .fill("\t")
+      .fill(indentText)
       .join("");
+	  
+	const view = settings.linkMask 
+      ? settings.linkMask.replace("{{indent}}", indent)
+		.replace("{{itemIndication}}", itemIndication)
+		.replace("{{heading}}", heading.heading)
+	  : `${indent}${itemIndication} [[#{heading.heading}|${heading.heading}]]`;
 
-    return `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
+    return view;
   });
 
   return endent`
