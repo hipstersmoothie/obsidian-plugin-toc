@@ -35,10 +35,9 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.listStyle)
           .addOption("bullet", "Bullet")
           .addOption("number", "Number")
-          .onChange((value) => {
-            this.plugin.settings.listStyle = value as any;
+          .onChange((value: any) => {
+            this.plugin.settings.listStyle = value;
             this.plugin.saveData(this.plugin.settings);
-            this.display();
           })
       );
 
