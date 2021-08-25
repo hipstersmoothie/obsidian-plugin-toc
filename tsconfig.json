@@ -2,16 +2,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "inlineSourceMap": true,
-    "allowSyntheticDefaultImports": true,
     "inlineSources": true,
     "module": "ESNext",
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "lib": ["dom", "es5", "scripthost", "es2015"],
-    "strict": true
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015"
+    ]
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }
