@@ -7,6 +7,7 @@ import {
   Setting,
 } from "obsidian";
 import { createToc, getCurrentHeaderDepth } from "./create-toc";
+import { TableOfContentsPluginSettings } from "./types";
 
 export interface CursorPosition {
   line: number;
@@ -53,8 +54,8 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
             this.plugin.saveData(this.plugin.settings);
           })
       );
-	  
-	new Setting(containerEl)
+
+    new Setting(containerEl)
       .setName("Indent text")
       .setDesc("\\t - tabulation")
       .addText((text) =>
@@ -67,33 +68,47 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
           })
       );
 
+    new Setting(containerEl)
+      .setName("replace title space")
+      .setDesc("replace title space with other string, such as -")
+      .addText((text) =>
+        text
+          .setPlaceholder("-")
+          .setValue(this.plugin.settings.replace || "")
+          .onChange((value) => {
+            this.plugin.settings.replace = value;
+            this.plugin.saveData(this.plugin.settings);
+          })
+      );
+
     const linkMaskSettingItem = new Setting(containerEl)
       .setName("Link mask")
       .setDesc("Avaliable vars: {{indent}}, {{itemIndication}}, {{heading}}.");
-		
-	const defaultLinkMask = "{{indent}}{{itemIndication}} [[#{{heading}}]]";
-	let resetLinkMaskBtn = null;
+
+    const defaultLinkMask = "{{indent}}{{itemIndication}} [[#{{heading}}]]";
+    let resetLinkMaskBtn = null;
     linkMaskSettingItem.addText((input) =>
-        input
-          .setPlaceholder("{{indent}}{{itemIndication}} [[#{{heading}}]]")
-          .setValue(this.plugin.settings.linkMask || "")
-          .onChange((value) => {
-            this.plugin.settings.linkMask = value;
-            this.plugin.saveData(this.plugin.settings);
-			
-			if(!resetLinkMaskBtn){
-			  resetLinkMaskBtn = linkMaskSettingItem.addExtraButton((btn) => 
-				btn
-				  .setTooltip("Default")
-				  .setIcon("reset")
-				  .onClick(() => {
-					input.setValue(defaultLinkMask);		
-					this.plugin.settings.linkMask = defaultLinkMask;
-					this.plugin.saveData(this.plugin.settings);
-				}));
-			}
-          })
-      );
+      input
+        .setPlaceholder("{{indent}}{{itemIndication}} [[#{{heading}}]]")
+        .setValue(this.plugin.settings.linkMask || "")
+        .onChange((value) => {
+          this.plugin.settings.linkMask = value;
+          this.plugin.saveData(this.plugin.settings);
+
+          if (!resetLinkMaskBtn) {
+            resetLinkMaskBtn = linkMaskSettingItem.addExtraButton((btn) =>
+              btn
+                .setTooltip("Default")
+                .setIcon("reset")
+                .onClick(() => {
+                  input.setValue(defaultLinkMask);
+                  this.plugin.settings.linkMask = defaultLinkMask;
+                  this.plugin.saveData(this.plugin.settings);
+                })
+            );
+          }
+        })
+    );
 
     new Setting(containerEl)
       .setName("Minimum Header Depth")
@@ -134,20 +149,12 @@ type GetSettings = (
   cursor: CodeMirror.Position
 ) => TableOfContentsPluginSettings;
 
-interface TableOfContentsPluginSettings {
-  listStyle: "bullet" | "number";
-  minimumDepth: number;
-  maximumDepth: number;
-  title?: string;
-  indentText?: string;
-  linkMask?: string;
-}
-
 export default class TableOfContentsPlugin extends Plugin {
   public settings: TableOfContentsPluginSettings = {
     minimumDepth: 2,
     maximumDepth: 6,
     listStyle: "bullet",
+    replace: "",
   };
 
   public async onload(): Promise<void> {

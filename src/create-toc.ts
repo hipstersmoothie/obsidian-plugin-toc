@@ -69,12 +69,17 @@ export const createToc = (
       .fill(indentText)
       .join("");
 
+    let head = heading.heading;
+    if (settings.replace !== "") {
+      head = head.replaceAll(" ", settings.replace);
+    }
+    console.log(head, settings.replace);
     const view = settings.linkMask
       ? settings.linkMask
           .replaceAll("{{indent}}", indent)
           .replaceAll("{{itemIndication}}", itemIndication)
-          .replaceAll("{{heading}}", heading.heading)
-      : `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
+          .replaceAll("{{heading}}", head)
+      : `${indent}${itemIndication} [[#${head}|${head}]]`;
 
     return view;
   });
