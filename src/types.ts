@@ -5,4 +5,5 @@ export interface TableOfContentsPluginSettings {
   title?: string;
   indentText?: string;
   linkMask?: string;
+  replace: string;
 }
