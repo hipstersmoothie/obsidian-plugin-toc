@@ -1,3 +1,6 @@
+**NOTE: I want(ed) different TOC stylings, so I implemented them. Will not be making a PR since it's not really worth it (and the code is kind of wacky), but in case anyone wants to give this a go, have fun.**
+
+
 # obsidian-plugin-toc
 
 Create a table of contents for a note.
