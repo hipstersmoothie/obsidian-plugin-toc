@@ -29,6 +29,14 @@ const getSubsequentHeadings = (
   return headings.filter((heading) => heading.position.end.line > cursor.line);
 };
 
+const getPreviousLevelHeading = (headings: HeadingCache[], currentHeading: HeadingCache) => {
+  const index = headings.indexOf(currentHeading);
+  const targetHeadings = headings.slice(0, index).reverse();
+  return targetHeadings.find((item, _index, _array) => {
+    return item.level == currentHeading.level - 1;
+  });
+}
+
 export const createToc = (
   { headings = [] }: CachedMetadata,
   cursor: CursorPosition,
@@ -67,8 +75,13 @@ export const createToc = (
     const indent = new Array(Math.max(0, heading.level - firstHeadingDepth))
       .fill("\t")
       .join("");
+    const previousLevelHeading = getPreviousLevelHeading(includedHeadings, heading);
 
-    return `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
+    if (typeof (previousLevelHeading) == "undefined") {
+      return `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
+    } else {
+      return `${indent}${itemIndication} [[#${previousLevelHeading.heading}#${heading.heading}|${heading.heading}]]`;
+    }
   });
 
   return endent`
