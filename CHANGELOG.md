@@ -1,3 +1,15 @@
+# 0.1.3 (Mon Mar 21 2022)
+
+#### 🐛 Bug Fix
+
+- add previous level heading to the link [#23](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/23) ([@f1238762001](https://github.com/f1238762001))
+
+#### Authors: 1
+
+- paul_lin ([@f1238762001](https://github.com/f1238762001))
+
+---
+
 # 0.1.2 (Mon Mar 01 2021)
 
 #### ⚠️ Pushed to `main`
