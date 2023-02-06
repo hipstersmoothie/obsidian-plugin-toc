@@ -1,3 +1,15 @@
+# 0.1.4 (Mon Feb 06 2023)
+
+#### 🐛 Bug Fix
+
+- maximumDepth slider bug fix [#29](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/29) ([@xoltar89](https://github.com/xoltar89))
+
+#### Authors: 1
+
+- [@xoltar89](https://github.com/xoltar89)
+
+---
+
 # 0.1.3 (Mon Mar 21 2022)
 
 #### 🐛 Bug Fix
