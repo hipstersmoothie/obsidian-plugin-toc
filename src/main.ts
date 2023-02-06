@@ -82,7 +82,7 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
           .setDynamicTooltip()
           .setLimits(1, 6, 1)
           .onChange((value) => {
-            this.plugin.settings.minimumDepth = value;
+            this.plugin.settings.maximumDepth = value;
             this.plugin.saveData(this.plugin.settings);
           })
       );
