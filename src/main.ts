@@ -5,8 +5,10 @@ import {
   Plugin,
   PluginSettingTab,
   Setting,
+ToggleComponent,
 } from "obsidian";
 import { createToc, getCurrentHeaderDepth } from "./create-toc";
+import { TableOfContentsPluginSettings } from "./types";
 
 export interface CursorPosition {
   line: number;
@@ -86,6 +88,37 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
             this.plugin.saveData(this.plugin.settings);
           })
       );
+    
+    new Setting(containerEl)
+      .setName("Use Markdown links")
+      .setDesc("Auto-generate Markdown links, instead of the default WikiLinks")
+      .addToggle((value) =>
+        value.setValue(this.plugin.settings.useMarkdown).onChange((value) => {
+          this.plugin.settings.useMarkdown = value;
+          this.plugin.saveData(this.plugin.settings);
+          if(!value) (githubSetting.components[0] as ToggleComponent).setValue(false)
+          githubSetting.setDisabled(!value)
+        })
+      );
+    
+    const githubCompatDesc: DocumentFragment = new DocumentFragment()
+    githubCompatDesc.appendText("Github generates section links differently than Obsidian, this setting uses ")
+    githubCompatDesc.createEl('a', {href: "https://github.com/thlorenz/anchor-markdown-header", text: "anchor-markdown-header"})
+    githubCompatDesc.appendText(" to generate the proper links.")
+
+    const githubSetting = new Setting(containerEl)
+      .setName("Github compliant Markdown section links")
+      .setDesc(githubCompatDesc)
+      .setDisabled(!this.plugin.settings.useMarkdown)
+      .addToggle((value) =>
+        value
+          .setValue(this.plugin.settings.githubCompat ?? false)
+          .setDisabled(!this.plugin.settings.useMarkdown)
+          .onChange((value) => {
+            this.plugin.settings.githubCompat = value;
+            this.plugin.saveData(this.plugin.settings);
+        })
+      );
   }
 }
 
@@ -94,18 +127,12 @@ type GetSettings = (
   cursor: CodeMirror.Position
 ) => TableOfContentsPluginSettings;
 
-interface TableOfContentsPluginSettings {
-  listStyle: "bullet" | "number";
-  minimumDepth: number;
-  maximumDepth: number;
-  title?: string;
-}
-
 export default class TableOfContentsPlugin extends Plugin {
   public settings: TableOfContentsPluginSettings = {
     minimumDepth: 2,
     maximumDepth: 6,
     listStyle: "bullet",
+    useMarkdown: false
   };
 
   public async onload(): Promise<void> {
