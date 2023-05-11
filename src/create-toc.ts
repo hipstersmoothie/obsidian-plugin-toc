@@ -1,6 +1,7 @@
 import endent from "endent";
 import { CachedMetadata, HeadingCache, Notice } from "obsidian";
 import { TableOfContentsPluginSettings } from "./types";
+import anchor from 'anchor-markdown-header';
 
 export interface CursorPosition {
   line: number;
@@ -77,11 +78,25 @@ export const createToc = (
       .join("");
     const previousLevelHeading = getPreviousLevelHeading(includedHeadings, heading);
 
-    if (typeof (previousLevelHeading) == "undefined") {
-      return `${indent}${itemIndication} [[#${heading.heading}|${heading.heading}]]`;
-    } else {
-      return `${indent}${itemIndication} [[#${previousLevelHeading.heading}#${heading.heading}|${heading.heading}]]`;
-    }
+    const prefix = `${indent}${itemIndication}`;
+    const displayText = heading.heading;
+    let linkText;
+
+    if (settings.useMarkdown && settings.githubCompat)
+      return `${prefix} ${anchor(heading.heading)}`;
+    else if (settings.useMarkdown) 
+      linkText = encodeURI(heading.heading);
+    else if (typeof previousLevelHeading == "undefined")
+      linkText = heading.heading;
+    else 
+      linkText = `${previousLevelHeading.heading}#${heading.heading}`;
+
+    // wikilink format
+    if (!settings.useMarkdown)
+      return `${prefix} [[#${linkText}|${displayText}]]`;
+    // markdown format
+    else 
+      return `${prefix} [${displayText}](#${linkText})`;
   });
 
   return endent`
