@@ -1,3 +1,15 @@
+# 0.2.0 (Thu May 11 2023)
+
+#### 🚀 Enhancement
+
+- Add MD link option and GH link option (closes #30 and #8) [#33](https://github.com/hipstersmoothie/obsidian-plugin-toc/pull/33) ([@4very](https://github.com/4very))
+
+#### Authors: 1
+
+- avery ([@4very](https://github.com/4very))
+
+---
+
 # 0.1.4 (Mon Feb 06 2023)
 
 #### 🐛 Bug Fix
