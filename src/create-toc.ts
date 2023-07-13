@@ -79,18 +79,22 @@ export const createToc = (
     const previousLevelHeading = getPreviousLevelHeading(includedHeadings, heading);
 
     const prefix = `${indent}${itemIndication}`;
-    const displayText = heading.heading;
+    let displayText = heading.heading;
     let linkText;
 
     if (settings.useMarkdown && settings.githubCompat)
       return `${prefix} ${anchor(heading.heading)}`;
     else if (settings.useMarkdown) 
-      linkText = encodeURI(heading.heading);
+      linkText = encodeURI(heading.heading.replaceAll("#","")); //replaceAll("#",""); replaces the tags from the linktext itself but not from the link prefix
     else if (typeof previousLevelHeading == "undefined")
-      linkText = heading.heading;
+      linkText = heading.heading.replaceAll("#","");
     else 
-      linkText = `${previousLevelHeading.heading}#${heading.heading}`;
-
+      linkText = `${previousLevelHeading.heading}#${heading.heading.replaceAll("#","")}`;
+	
+	//remove all [ ] from the link and the display text
+	linkText = linkText.replaceAll("[","").replaceAll("]","")
+	displayText = displayText.replaceAll("[","").replaceAll("]","");
+	
     // wikilink format
     if (!settings.useMarkdown)
       return `${prefix} [[#${linkText}|${displayText}]]`;
