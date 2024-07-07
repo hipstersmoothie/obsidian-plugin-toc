@@ -70,9 +70,11 @@ export const createToc = (
     return;
   }
 
+  const prefixMap = {};
   const firstHeadingDepth = includedHeadings[0].level;
   const links = includedHeadings.map((heading) => {
-    const itemIndication = (settings.listStyle === "number" && "1.") || "-";
+    prefixMap[heading.level] = (prefixMap[heading.level] || 0) + 1;
+    const itemIndication = (settings.listStyle === "number" && `${prefixMap[heading.level]}.`) || "-";
     const indent = new Array(Math.max(0, heading.level - firstHeadingDepth))
       .fill("\t")
       .join("");
