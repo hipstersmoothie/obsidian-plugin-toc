@@ -1,0 +1,13 @@
+/* Better Table of Contents Plugin Styles */
+.toc-wrapper {
+  margin: 1rem 0;
+}
+
+.toc-heading {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.toc-container ul {
+  margin-top: 0.3rem;
+}

@@ -1,55 +1,66 @@
-# obsidian-plugin-toc
+<p align="center">
+  <img src="docs/images/cover.png" alt="obsidian-better-toc Cover" width="100%">
+</p>
 
-Create a table of contents for a note.
+<h1 align="center">
+  <img src="assets/logo.svg" width="32" height="32" alt="Logo" align="top">
+  obsidian-better-toc
+</h1>
 
-![Example of content creation](example.gif)
+<p align="center">
+  <strong>Generate elegant table of contents for Obsidian notes</strong><br>
+  <sub>Obsidian Plugin</sub>
+</p>
+
+---
 
 ## Features
 
-This plugin exposes the following commands:
+| Command                                         | Description                              |
+| ----------------------------------------------- | ---------------------------------------- |
+| Create full table of contents                   | Generate TOC for all subheadings         |
+| Create table of contents for next heading level | Generate TOC scoped to immediate sublevel |
 
-| Action                                          | Hotkey           |
-| ----------------------------------------------- | ---------------- |
-| Create full table of contents                   | Blank by default |
-| Create table of contents for next heading level | Blank by default |
+| Setting              | Type                 | Default     |
+| -------------------- | -------------------- | ----------- |
+| List Style           | `bullet` or `number` | `bullet`    |
+| Format Style         | `plain`, `markdown`, `wiki` | `markdown` |
+| Title                | string               | (none)      |
+| Minimum header depth | 1-6                  | 2           |
+| Maximum header depth | 1-6                  | 6           |
+| GitHub Compatibility | boolean              | false       |
 
-And the following settings:
+## Demo
 
-| Setting              | type                 | Default    |
-| -------------------- | -------------------- | ---------- |
-| List Style           | 'bullet' or 'number' | 'bullet'   |
-| Title                | 'string'             | undefined' |
-| Minimum header depth | number               | 2          |
-| Maximum header depth | number               | 6          |
+![Example of content creation](example.gif)
 
 ## Usage
 
-This plugin will create a table of content for the sub-heading of the current heading level.
+The TOC is **scoped**: it only includes headings under the current heading until the next same-level heading.
 
 **Example:**
 
-_Input:_ Run "Table of Contents" under a level 2 heading  
-_Output:_ "Table of Contents" only contains subheadings of that level 2 heading
+_Input:_ Run "Table of Contents" under a level 2 heading
+_Output:_ TOC contains only subheadings of that level 2 heading
 
-## Installing
+### Recommended Hotkeys
 
-Either install the latest release from Obsidian directly or unzip the [latest release](https://github.com/hipstersmoothie/obsidian-plugin-toc/releases/latest) into your `<vault>/.obsidian/plugins/` folder.
+- `CMD + SHIFT + T` → Create full table of contents
+- `CMD + T` → Create table of contents for next heading level
 
-Once the plugin is installed, you need to make sure that the switch for "Table of Contents" is turned on.
-After you are all setup you would see this plugins commands in the command palette (`CMD + P`).
-You can assign the commands to hotkeys for easy usage.
+## Installation
 
-Here is my setup:
+Install from Obsidian Community Plugins, or manually:
 
-- Create full table of contents => `CMD + SHIFT + T`
-- Create table of contents for next heading level => `CMD + T`
+1. Download latest release
+2. Extract to `<vault>/.obsidian/plugins/obsidian-better-toc/`
+3. Enable "Table of Contents" in Settings → Community Plugins
 
-## Customizations
+## Customization
 
-### Detailed Nested Ordered Lists
+### Nested Numbered Lists
 
-If you want the table of contents to use nested list counting (ex: 1.1, 1.2) add the following CSS snippet to obsidian.
-This will effect all ordered lists in your notes.
+Add this CSS snippet for nested list counting (1.1, 1.2):
 
 ```css
 ol {
@@ -67,4 +78,23 @@ ol li:before {
 }
 ```
 
-> NOTE: Make sure you enable the snippet in obsidian's options.
+Enable in Settings → Appearance → CSS Snippets.
+
+## Development
+
+```bash
+pnpm install    # Install dependencies
+pnpm dev        # Development with watch mode
+pnpm build      # Production build
+```
+
+## Tech Stack
+
+- TypeScript
+- Obsidian API
+- esbuild
+- anchor-markdown-header (GitHub link compatibility)
+
+## License
+
+MIT

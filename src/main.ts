@@ -43,7 +43,23 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
             this.display();
           })
       );
-
+    
+    new Setting(containerEl)
+      .setName("Format Style")
+      .setDesc("The format of list to render the table of contents as.")
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption("plain", "Plain")
+          .addOption("markdown", "markdown")
+          .addOption("wiki", "Wiki")
+          .setValue(this.plugin.settings.formatStyle)
+          .onChange((value) => {
+            this.plugin.settings.formatStyle = value as any;
+            this.plugin.saveData(this.plugin.settings);
+            this.display();
+          })
+      );
+    
     new Setting(containerEl)
       .setName("Title")
       .setDesc("Optional title to put before the table of contents")
@@ -89,18 +105,6 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
           })
       );
     
-    new Setting(containerEl)
-      .setName("Use Markdown links")
-      .setDesc("Auto-generate Markdown links, instead of the default WikiLinks")
-      .addToggle((value) =>
-        value.setValue(this.plugin.settings.useMarkdown).onChange((value) => {
-          this.plugin.settings.useMarkdown = value;
-          this.plugin.saveData(this.plugin.settings);
-          if(!value) (githubSetting.components[0] as ToggleComponent).setValue(false)
-          githubSetting.setDisabled(!value)
-        })
-      );
-    
     const githubCompatDesc: DocumentFragment = new DocumentFragment()
     githubCompatDesc.appendText("Github generates section links differently than Obsidian, this setting uses ")
     githubCompatDesc.createEl('a', {href: "https://github.com/thlorenz/anchor-markdown-header", text: "anchor-markdown-header"})
@@ -109,11 +113,11 @@ class TableOfContentsSettingsTab extends PluginSettingTab {
     const githubSetting = new Setting(containerEl)
       .setName("Github compliant Markdown section links")
       .setDesc(githubCompatDesc)
-      .setDisabled(!this.plugin.settings.useMarkdown)
+      .setDisabled(this.plugin.settings.formatStyle !== 'markdown')
       .addToggle((value) =>
         value
           .setValue(this.plugin.settings.githubCompat ?? false)
-          .setDisabled(!this.plugin.settings.useMarkdown)
+          .setDisabled(this.plugin.settings.formatStyle !== 'markdown')
           .onChange((value) => {
             this.plugin.settings.githubCompat = value;
             this.plugin.saveData(this.plugin.settings);
@@ -132,7 +136,7 @@ export default class TableOfContentsPlugin extends Plugin {
     minimumDepth: 2,
     maximumDepth: 6,
     listStyle: "bullet",
-    useMarkdown: false
+    formatStyle: "markdown"
   };
 
   public async onload(): Promise<void> {
@@ -179,7 +183,9 @@ export default class TableOfContentsPlugin extends Plugin {
     const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
 
     if (activeView && activeView.file) {
-      const editor = activeView.sourceMode.cmEditor;
+      const editor = activeView.editor;
+      if (!editor) return;
+      
       const cursor = editor.getCursor();
       const data = this.app.metadataCache.getFileCache(activeView.file) || {};
       const toc = createToc(

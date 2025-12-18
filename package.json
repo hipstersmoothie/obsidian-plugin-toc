@@ -1,9 +1,9 @@
 {
-  "name": "obsidian-plugin-toc",
-  "description": "Create a table of contents for obsidian.md notes.",
+  "name": "obsidian-better-toc",
+  "description": "Create a better table of contents for obsidian.md notes.",
   "scripts": {
-    "start": "obsidian-plugin dev src/main.ts",
-    "build": "obsidian-plugin build src/main.ts",
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "release": "auto shipit"
   },
@@ -12,22 +12,24 @@
     "plugin"
   ],
   "author": "Andrew Lisowski <lisowski54@gmail.com>",
-  "repository": "hipstersmoothie/obsidian-plugin-toc",
+  "repository": "markshawn2020/obsidian-better-toc",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^14.14.2",
+    "@types/node": "^20.11.27",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "anchor-markdown-header": "^0.7.0",
     "auto": "^10.16.7",
     "auto-plugin-obsidian": "^0.1.4",
+    "builtin-modules": "^5.0.0",
     "endent": "^2.0.1",
+    "esbuild": "^0.20.0",
+    "esbuild-plugin-copy": "^2.1.1",
     "eslint": "7.12.1",
     "eslint-config-prettier": "^7.2.0",
-    "obsidian": "obsidianmd/obsidian-api",
-    "obsidian-plugin-cli": "^0.4.3",
+    "obsidian": "^1.5.8",
     "prettier": "^2.2.1",
     "tslib": "^2.1.0",
-    "typescript": "^4.1.5"
+    "typescript": "^5.4.3"
   }
 }

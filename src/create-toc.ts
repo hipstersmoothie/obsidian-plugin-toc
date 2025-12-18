@@ -82,21 +82,24 @@ export const createToc = (
     const displayText = heading.heading;
     let linkText;
 
-    if (settings.useMarkdown && settings.githubCompat)
+    if (settings.formatStyle === 'markdown' && settings.githubCompat)
       return `${prefix} ${anchor(heading.heading)}`;
-    else if (settings.useMarkdown) 
+    else if (settings.formatStyle === 'markdown')
       linkText = encodeURI(heading.heading);
     else if (typeof previousLevelHeading == "undefined")
       linkText = heading.heading;
     else 
       linkText = `${previousLevelHeading.heading}#${heading.heading}`;
-
-    // wikilink format
-    if (!settings.useMarkdown)
-      return `${prefix} [[#${linkText}|${displayText}]]`;
-    // markdown format
-    else 
-      return `${prefix} [${displayText}](#${linkText})`;
+    
+    switch (settings.formatStyle) {
+      case "markdown":
+        return `${prefix} [${displayText}](#${linkText})`;
+      case "wiki":
+        return `${prefix} [[#${linkText}|${displayText}]]`;
+      case "plain":
+      default:
+        return `${prefix} ${displayText}`
+    }
   });
 
   return endent`
