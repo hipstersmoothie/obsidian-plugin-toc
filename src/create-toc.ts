@@ -48,10 +48,6 @@ export const createToc = (
   const includedHeadings: HeadingCache[] = [];
 
   for (const heading of subsequentHeadings) {
-    if (heading.level <= currentDepth) {
-      break;
-    }
-
     if (
       heading.level >= settings.minimumDepth &&
       heading.level <= settings.maximumDepth
